@@ -1,0 +1,58 @@
+swagger: '2.0'
+info:
+  title: forQueryParam
+  x-ibm-name: forqueryparam
+  version: 1.0.0
+schemes:
+  - https
+basePath: /forqueryparam
+x-ibm-configuration:
+  properties:
+    target-url:
+      value: 'http://10.0.0.10:3456/Plans/estimate'
+      description: URL of the proxy policy
+      encoded: false
+  cors:
+    enabled: true
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - invoke:
+          title: invoke
+          version: 2.0.0
+          verb: keep
+          target-url: $(target-url)
+          follow-redirects: false
+          timeout: 60
+          parameter-control:
+            type: blocklist
+            values: []
+          header-control:
+            type: blocklist
+            values: []
+          inject-proxy-headers: true
+  application-authentication:
+    certificate: false
+paths:
+  /queryparam:
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+      parameters:
+        - name: a
+          in: query
+          required: false
+          type: string
+        - name: b
+          in: query
+          required: false
+          type: string
